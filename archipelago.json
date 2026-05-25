@@ -4,5 +4,6 @@
     "authors": ["Happyhappyism"],
     "version": 7,
     "compatible_version": 7,
-    "game": "Bomberman Hero"
+    "game": "Bomberman Hero",
+    "tracker": "https://github.com/Happyhappyism/Bomberman_Hero_Tracker/releases/tag/bombhero_tracker_v0.1.0"
 }
