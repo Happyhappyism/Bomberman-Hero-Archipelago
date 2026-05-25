@@ -1,10 +1,3 @@
-## Updates From Previous Version
-- Adok Bomb Items/ Adok Bomb Required will now appear in the pause screen
-- Crystal Gem Checks have been added along with the option to choose how many Crystals are needed for each location
-- Adok Bomb Goal should now be fixed
-- Stage Clear Goal has been added
-- The option to chose if you want hearts to be placed on the first 4 gem checks, healthups should also be permanent even with gameover
-- BombUps and FireUps have the option to be included in the pool or vanilla
 
 ## Features
 - Stages shuffled as checks to collect; get a specified number of clear points in your stage to receive a second check!
