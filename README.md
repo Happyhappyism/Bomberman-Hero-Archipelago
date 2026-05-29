@@ -2,8 +2,7 @@
 
 ## What you need
 - Bizhawk https://tasvideos.org/BizHawk/ReleaseHistory#Bizhawk210
-- The latest Bomberman Hero .apworld provided in the latest release post
-https://discord.com/channels/731205301247803413/1330612852867858505/1330734687798300764
+- The latest [Bomberman Hero .apworld](https://github.com/Happyhappyism/Bomberman-Hero-Archipelago/releases)
 
 
 ## Installation
