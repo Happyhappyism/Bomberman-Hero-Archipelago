@@ -168,11 +168,12 @@ class BombHWorld(World):
             locked_item = self.create_item(location_data_table[location_name].locked_item)
             self.get_location(location_name).place_locked_item(locked_item)
 
+        gem_check_count = self.options.gem_check_total.value
         if self.options.item_health.value == 0:
-            self.get_location("Crystals 1").place_locked_item(self.create_item("Healthup"))
-            self.get_location("Crystals 2").place_locked_item(self.create_item("Healthup"))
-            self.get_location("Crystals 3").place_locked_item(self.create_item("Healthup"))
-            self.get_location("Crystals 4").place_locked_item(self.create_item("Healthup"))
+            for crystal_num in range(1, 5):
+                if  gem_check_count >= crystal_num:
+                    crystal_name = f"Crystals {crystal_num}"
+                    self.get_location(crystal_name).place_locked_item(self.create_item("Healthup"))
         
 
     def get_filler_item_name(self) -> str:

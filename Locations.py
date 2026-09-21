@@ -994,51 +994,61 @@ gem_data_table: Dict[str, BombHLocationData] = {
         region="Planet Bomber",
         address=0x1348061,
         type= "Crystal",
+        can_create= lambda world: world.options.gem_check_total.value >= 1
     ),
     "Crystals 2": BombHLocationData(
         region="Planet Bomber",
         address=0x1348062,
         type= "Crystal",
+        can_create= lambda world: world.options.gem_check_total.value >= 2
     ),
     "Crystals 3": BombHLocationData(
         region="Planet Bomber",
         address=0x1348063,
         type= "Crystal",
+        can_create= lambda world: world.options.gem_check_total.value >= 3
     ),
     "Crystals 4": BombHLocationData(
         region="Planet Bomber",
         address=0x1348064,
         type= "Crystal",
+        can_create= lambda world: world.options.gem_check_total.value >= 4
     ),
     "Crystals 5": BombHLocationData(
         region="Planet Bomber",
         address=0x1348065,
         type= "Crystal",
+        can_create= lambda world: world.options.gem_check_total.value >= 5
     ),
     "Crystals 6": BombHLocationData(
         region="Planet Bomber",
         address=0x1348066,
         type= "Crystal",
+        can_create= lambda world: world.options.gem_check_total.value >= 6
     ),
     "Crystals 7": BombHLocationData(
         region="Planet Bomber",
         address=0x1348067,
         type= "Crystal",
+        can_create= lambda world: world.options.gem_check_total.value >= 7
     ),
     "Crystals 8": BombHLocationData(
         region="Planet Bomber",
         address=0x1348068,
         type= "Crystal",
+        can_create= lambda world: world.options.gem_check_total.value >= 8
     ),
     "Crystals 9": BombHLocationData(
         region="Planet Bomber",
         address=0x1348069,
         type= "Crystal",
+        can_create= lambda world: world.options.gem_check_total.value >= 9
     ),
     "Crystals 10": BombHLocationData(
         region="Planet Bomber",
         address=0x134806A,
         type= "Crystal",
+        can_create= lambda world: world.options.gem_check_total.value >= 10
     ),
 }
 radio_data_table: Dict[str, BombHLocationData] = {
