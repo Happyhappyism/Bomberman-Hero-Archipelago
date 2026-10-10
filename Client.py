@@ -298,6 +298,8 @@ class BombHClient(BizHawkClient):
     music_rando = False
     radio = False
 
+    cycle_ticks = 0
+
     def __init__(self) -> None:
         super().__init__()
         self.local_checked_locations = set()
@@ -407,6 +409,9 @@ class BombHClient(BizHawkClient):
 
 
         try:
+            self.cycle_ticks += 1
+            if self.cycle_ticks > 6:
+                self.cycle_ticks = 0
             ram_data = await bizhawk.read(
                 ctx.bizhawk_ctx,
                 [
@@ -527,9 +532,10 @@ class BombHClient(BizHawkClient):
                     await ctx.send_msgs([{"cmd": "LocationChecks", "locations": list(locs_to_send)}])
             
             # Autocomplete stages
-            for loc in ctx.checked_locations:
-                if loc in point_clears:
-                    outbound_writes.append((point_clears[loc], (0x05).to_bytes(1, "little") , "RDRAM"))
+            if stage_data[0] == 6:
+                for loc in ctx.checked_locations:
+                    if loc in point_clears:
+                        outbound_writes.append((point_clears[loc], (0x05).to_bytes(1, "little") , "RDRAM"))
 
             # Handle Items
             # Permanent Items
@@ -545,32 +551,34 @@ class BombHClient(BizHawkClient):
                     case 0x165240: #Fireup
                         fireup += 1
                     case 0x165258: # Vest
-                        if self.item_powerup:
+                        if self.item_powerup and self.cycle_ticks == 1:
                             outbound_writes.append(( 0x165258, (0x01).to_bytes(1, "little"), "RDRAM"))
                     case 0x165245: # Max Health
                         max_hp += 1
                     case 0x165248: # Adok Bomb
                         adok += 1
                         # Used for the lua tracker
-                        outbound_writes.append((0x57499,bytearray([adok]), "RDRAM"))
-                        # Unlock Bagular
-                        if adok >= self.adok_required and stage_data[0x5A] == 0:
-                            outbound_writes.append((0x134862,bytearray([0x06]), "RDRAM"))
+                        if self.cycle_ticks == 2:
+                            outbound_writes.append((0x57499,bytearray([adok]), "RDRAM"))
+                            # Unlock Bagular
+                            if adok >= self.adok_required and stage_data[0x5A] == 0:
+                                outbound_writes.append((0x134862,bytearray([0x06]), "RDRAM"))
                     case _: # Stage unlocks
-                        if raw_item > 0x134807 and raw_item < 0x134862:
+                        if raw_item > 0x134807 and raw_item < 0x134862 and self.cycle_ticks == 3:
                             if stage_data[raw_item - 0x134808] == 0x00:
                                 outbound_writes.append((raw_item, (0x06).to_bytes(1, "little") , "RDRAM"))
                                 if raw_item in STAGE_HINT:
                                     logger.info(STAGE_HINT[raw_item])
 
 
-            if self.item_powerup:
+            if self.item_powerup and self.cycle_ticks == 4:
                 outbound_writes.append(( 0x16523F,bytearray([bombup]), "RDRAM"))
-            if self.item_powerup:
+            if self.item_powerup and self.cycle_ticks == 5:
                 outbound_writes.append(( 0x165240,bytearray([fireup]), "RDRAM"))
-            outbound_writes.append(( 0x51DF0,bytearray([adok]), "RDRAM"))
+            if self.cycle_ticks == 6:
+                outbound_writes.append(( 0x51DF0,bytearray([adok]), "RDRAM"))
             #if self.item_health:
-            outbound_writes.append(( 0x165245,bytearray([max_hp]), "RDRAM"))
+                outbound_writes.append(( 0x165245,bytearray([max_hp]), "RDRAM"))
 
             if len(ctx.items_received) > recv_index:
                 raw_item = ctx.items_received[recv_index].item
